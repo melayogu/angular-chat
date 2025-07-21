@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ChatService {
   private readonly messagesSubject = new BehaviorSubject<Message[]>([]);
   private messages: Message[] = [];
-  private readonly apiUrl = 'https://localhost:7140/OpenAi'; // 恢復原本的路由
+  private readonly apiUrl = 'https://localhost:7140/api/OpenAiApi'; // 更新為新的 API 路由
 
   constructor(private http: HttpClient) {}
 
