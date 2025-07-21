@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.scrollToBottom();
   }
 
-  sendMessage() {
+  async sendMessage() {
     if (this.newMessage.trim()) {
       const message: Message = {
         id: Date.now().toString(),
@@ -44,12 +44,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       };
 
       this.chatService.addMessage(message);
+      const userMessage = this.newMessage;
       this.newMessage = '';
 
-      // 模擬對方回覆
-      setTimeout(() => {
-        this.simulateReply();
-      }, 1000);
+      // 使用 Stream API 發送訊息到 OpenAI
+      try {
+        await this.chatService.sendStreamMessage(userMessage);
+      } catch (error) {
+        console.error('發送訊息失敗:', error);
+        
+        // 如果 Stream 失敗，回退到模擬回覆
+        setTimeout(() => {
+          this.simulateReply();
+        }, 1000);
+      }
     }
   }
 
